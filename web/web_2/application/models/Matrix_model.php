@@ -105,7 +105,7 @@ class Matrix_model extends CI_Model
 	function Det($m0, $n)
 	{
 
-
+		$V1 = 0;
 		if ($n == 0) {
 			$V1 = $V1 + $$m0[0][0];
 		}
@@ -118,10 +118,10 @@ class Matrix_model extends CI_Model
 			for ($a = 0; $a < 1; $a++) {
 				for ($b = 0; $b < $n or $b == $n; $b++) {
 
-					$mino = minor($m0, $n, $a, $b);
+					$mino = $this->minor($m0, $n, $a, $b);
 					$c = $n - 1;
 
-					$V1 = $V1 + $m0[0][$b] * pow((-1), 1 + $b + 1) * Det($mino, $c);
+					$V1 = $V1 + $m0[0][$b] * pow((-1), 1 + $b + 1) * $this->Det($mino, $c);
 				}
 			}
 		}
@@ -142,7 +142,7 @@ class Matrix_model extends CI_Model
 				return $V;
 				break;
 			default:
-				$V = Det($arrXX, $n);
+				$V = $this->Det($arrXX, $n);
 				return $V;
 		}
 	}
@@ -159,8 +159,8 @@ class Matrix_model extends CI_Model
 		for ($i = 0; $i < $count; $i++) {
 			$tmp = $a[$i][$i];
 			for ($j = $count - 1; $j >= 0; $j--) {
-				$e[$i][$j] /= $tmp;
-				$a[$i][$j] /= $tmp;
+				@$e[$i][$j] /= $tmp;
+				@$a[$i][$j] /= $tmp;
 			}
 
 			for ($j = 0; $j < $count; $j++) {

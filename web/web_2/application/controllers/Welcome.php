@@ -35,7 +35,14 @@ class Welcome extends CI_Controller
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('dialog_view');
 		} else {
-			$data['size'] = $this->input->post('size');
+			$size = $this->input->post('size');
+			$matrix = $this->helper->matrixGenerate($size);
+			
+			$data['matrix'] = $matrix;
+			$data['det'] =  $this->helper->determinat($matrix, count($matrix) - 1);
+			$data['reverseMatrix'] = $this->helper->matrixReverse($matrix);
+			$data['horReverseMatrix'] = $this->helper->matrixSwapHor($matrix);
+			$data['verReverseMatrix'] = $this->helper->matrixSwapVer($matrix);
 			$this->load->view('matrix_view', $data);
 		}
 	}
