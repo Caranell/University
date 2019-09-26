@@ -14,11 +14,11 @@ class Matrix_model extends CI_Model
 
 	function matrixBuildTable($matrix)
 	{
-		echo "<table style='border-collapse: collapse; margin: 0 auto;'  border='1'>";
+		echo '<table width="50%" class="table table-bordered table-sm">';
 		foreach ($matrix as $key => $value) {
 			echo "<tr>";
 			foreach ($value as $key2 => $value2) {
-				echo "<td style='width: 60px; height: 30px;' align='middle' contenteditable='true'>" . round($value2, 4) . "</td>";
+				echo "<td>" . round($value2, 4) . "</td>";
 			}
 			echo "</tr>";
 		}
