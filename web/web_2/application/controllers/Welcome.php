@@ -9,6 +9,7 @@ class Welcome extends CI_Controller
 		$this->load->helper('url', 'form');
 		$this->load->library('form_validation');
 		$this->load->library('MY_Form_validation');
+		$this->load->library('encryption');
 		$this->load->model('Matrix_model', 'helper');
 	}
 	public function index()

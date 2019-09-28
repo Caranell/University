@@ -6,7 +6,7 @@
 
 <body>
 
-	<div class="column">
+	<div class="container center">
 		<h2 class="title">Генерация матрицы</h2>
 		<div class="notification is-danger">
 			<?php echo validation_errors(); ?>
@@ -23,7 +23,6 @@
 					<button class="button is-link" type="submit">Сгенерировать</button>
 				</div>
 			</div>
-		</form>
 	</div>
 </body>
 

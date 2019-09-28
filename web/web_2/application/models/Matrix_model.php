@@ -14,7 +14,7 @@ class Matrix_model extends CI_Model
 
 	function matrixBuildTable($matrix)
 	{
-		echo '<table width="50%" class="table table-bordered table-sm">';
+		echo '<table style="width: 40% !important; margin: 30px auto !important;" class="table table-bordered table-sm">';
 		foreach ($matrix as $key => $value) {
 			echo "<tr>";
 			foreach ($value as $key2 => $value2) {
