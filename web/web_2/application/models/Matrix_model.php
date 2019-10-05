@@ -12,20 +12,6 @@ class Matrix_model extends CI_Model
 		return $matrixAns;
 	}
 
-	function matrixBuildTable($matrix)
-	{
-		echo '<table style="width: 40% !important; margin: 30px auto !important;" class="table table-bordered table-sm">';
-		foreach ($matrix as $key => $value) {
-			echo "<tr>";
-			foreach ($value as $key2 => $value2) {
-				echo "<td>" . round($value2, 4) . "</td>";
-			}
-			echo "</tr>";
-		}
-		echo "</table>";
-	}
-
-
 	function matrixSwapHor($matrix)
 	{
 		$size = count($matrix);
@@ -185,5 +171,16 @@ class Matrix_model extends CI_Model
 			}
 		}
 		return $matrixAns;
+	}
+	function matrixDownloadString($matrix)
+	{
+		$size = count($matrix);
+		for ($i = 0; $i < $size; $i++) {
+			$line = $matrix[$i][0];
+			for ($j = 1; $j < $size; $j++) {
+				$line .= "\t" . $matrix[$i][$j];
+			}
+			echo $line . "\n";
+		}
 	}
 }

@@ -7,23 +7,26 @@
 <body>
 	<div class="container container-small">
 		<div class="container container-small">
-			<?php $this->helper->matrixBuildTable($matrix) ?>
+			<?php matrixBuildTable($matrix) ?>
 		</div>
 		<div>
 		</div>
 		<div class="container container-small">
-			<?php $this->helper->matrixBuildTable($reverseMatrix) ?>
+			<?php matrixBuildTable($reverseMatrix) ?>
 		</div>
 		<div class="container container-small">
-			<?php $this->helper->matrixBuildTable($horReverseMatrix) ?>
+			<?php matrixBuildTable($horReverseMatrix) ?>
 		</div>
 		<div class="container container-small">
-			<?php $this->helper->matrixBuildTable($verReverseMatrix) ?>
+			<?php matrixBuildTable($verReverseMatrix) ?>
 		</div>
-		<form action="">
-			
+		<form action="<?= base_url("welcome/downloadFile") ?>" style="display: flex;" method="POST">
+			<input type="hidden" name="answerMatrix" value="<?php $this->matrix_helper->matrixDownloadString($matrix) ?>">
+			<button class="btn btn-primary" style="margin: 10 auto !important;" type="submit">download</button>
 		</form>
 	</div>
 </body>
 
 </html>
+
+<!-- force_download('matrix.txt', )  -->
