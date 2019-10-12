@@ -1,0 +1,20 @@
+name
+Senior Machine learning developer (C++)       1
+Team Lead/Руководитель группы (JavaScript)    1
+Руководитель направления разработки           1
+
+5 days 03:19:56.465163|7 days 11:03:55.798496|12 days 02:31:41.465163
+
+experience
+От 1 года до 3 лет    1
+От 3 до 6 лет         2
+
+employment-form
+Полная занятость    3
+
+employment-schedule
+Гибкий график    1
+Полный день      2
+
+{"JavaScript": 1, "HTML": 1, "CSS": 1, "Управление проектами": 1}
+

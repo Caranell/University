@@ -5,11 +5,11 @@ import json
 base_url = 'https://api.hh.ru/vacancies/'
 
 
-def handleString(str):
+def handle_string(str):
     return str if str is not None else ''
 
 
-def handleExperience(exp):
+def handle_experience(exp):
     exp_id = exp['id']
     if exp_id == 'noExperience':
         return ('', '')
@@ -27,22 +27,23 @@ with open('data.json', encoding='utf-8') as json_file:
         vacancy_data = requests.get(base_url + str(vacancy['id'])).json()
         dict = {}
         print(str(j)+'/' + str(amount))
-        dict['name'] = handleString(vacancy_data['name'])
+        dict['name'] = handle_string(vacancy_data['name'])
         dict['city'] = vacancy_data['area']['name']
         dict['min-salary'] = vacancy_data['salary']['from'] if vacancy_data['salary'] else ''
         dict['max-salary'] = vacancy_data['salary']['to'] if vacancy_data['salary'] else ''
-        dict['company-name'] = handleString(vacancy_data['employer']['name'])
+        dict['company-name'] = handle_string(vacancy_data['employer']['name'])
         dict['date'] = vacancy_data['published_at']
-        dict['min-experience'] = handleExperience(
+        dict['experience'] = vacancy_data['experience']['name']
+        dict['min-experience'] = handle_experience(
             vacancy_data['experience'])[0]
-        dict['max-experience'] = handleExperience(
+        dict['max-experience'] = handle_experience(
             vacancy_data['experience'])[1]
         dict['employment-form'] = vacancy_data['employment']['name']  # занятость
         dict['employment-schedule'] = vacancy_data['schedule']['name']
-        dict['responsibilities'] = handleString(
+        dict['responsibilities'] = handle_string(
             vacancy['snippet']['responsibility'])
-        dict['requirements'] = handleString(vacancy['snippet']['requirement'])
-        dict['description'] = handleString(vacancy_data['description'])
+        dict['requirements'] = handle_string(vacancy['snippet']['requirement'])
+        dict['description'] = handle_string(vacancy_data['description'])
         skills = ''
         for i in range(len(vacancy_data['key_skills'])):
             skills += '|' + vacancy_data['key_skills'][i]['name']
