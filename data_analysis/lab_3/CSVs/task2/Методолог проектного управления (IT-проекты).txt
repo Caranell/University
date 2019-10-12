@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+30 days 06:13:40.503207|30 days 06:13:40.503207|30 days 06:13:40.503207
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"MS Project": 1, "Atlassian Jira": 1, "Atlassian Confluence": 1, "kunb": 1, "kanban": 1, "Scrum": 1}
+

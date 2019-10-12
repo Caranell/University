@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+1 days 07:23:43.457963|1 days 07:23:43.457963|1 days 07:23:43.457963
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"Agile Project Management": 1, "Управление проектами": 1, "Project management": 1, "Internet Marketing": 1, "Google AdWords": 1, "Google Analytics": 1, "Яндекс.Директ": 1, "Яндекс.Метрика": 1, "Ведение переговоров": 1}
+

@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+9 days 04:50:31.314176|9 days 04:50:31.314176|9 days 04:50:31.314176
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"Node.js": 1, "Python": 1, "PHP": 1, "Ruby": 1, "Java": 1, "C#": 1, "Django Framework": 1, "C++": 1, "MS SQL Server": 1, "SQL": 1, "Управление проектами": 1, "ООП": 1, "Ruby On Rails": 1}
+

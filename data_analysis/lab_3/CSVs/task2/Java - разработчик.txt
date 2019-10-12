@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+16 days 05:24:10.428501|16 days 05:24:10.428501|16 days 05:24:10.428501
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"Java": 1, "spring": 1, "docker": 1, "java 8": 1, "Git": 1, "Linux": 1, "PostgreSQL": 1, "MySQL": 1, "fullstack": 1, "backend": 1}
+

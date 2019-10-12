@@ -1,0 +1,34 @@
+name
+.Net-разработчик                                  1
+Android разработчик                               1
+DevOps specialist (в Екатеринбург)                1
+Flutter-разработчик                               1
+Frontend-разработчик                              1
+IOS разработчик                                   2
+Java-разработчик                                  1
+Middle Android разработчик                        1
+Scrum Master                                      1
+Web-разработчик                                   1
+Программист JS                                    1
+Программист Python                                2
+Программист web-разработчик (backend/frontend)    1
+Программист С++                                   1
+Разработчик баз данных                            1
+С++Developer (в г. Рязань)                        1
+
+Время от создания вакансии (минимальное|среднее|максимальное)
+1 days 01:28:49.156574|11 days 09:45:25.823240|30 days 03:50:29.156574
+
+experience
+От 1 года до 3 лет    18
+
+employment-form
+Полная занятость    18
+
+employment-schedule
+Гибкий график        1
+Полный день         13
+Удаленная работа     4
+
+{"Java": 2, "Spring Framework": 1, "PostgreSQL": 5, "Hibernate": 1, "Mockito": 1, "JUnit": 1, "Docker": 1, "Kubernetes": 1, ".NET Framework": 1, "Веб-программирование": 1, "PHP": 2, "1С-Битрикс": 1, "Yii": 1, "Laravel": 2, "JavaScript": 3, "jQuery": 1, "HTML": 2, "CSS": 2, "SQL": 2, "ReactJS": 1, "AngularJS": 1, "VueJS": 1, "Git": 8, "ООП": 3, "Symfony": 1, "TypeScript": 1, "Mobx": 1, "Redux": 1, "Flutter": 1, "Dart": 1, "Android": 2, "iOS": 3, "Scrum": 1, "Agile Project Management": 1, "Atlassian Jira": 1, "Atlassian Confluence": 1, "Project management": 1, "Управление проектами": 1, "Ведение переговоров": 1, "Управление персоналом": 1, "Организаторские навыки": 1, "Python": 2, "Django Framework": 1, "CoreData": 1, "Objective-C": 2, "JSON": 1, "C++": 2, "STL": 1, "Linux": 2, "Kotlin": 1, "Unit Testing": 2, "Clean Architecture": 2, "RxJava": 1, "Dagger": 1, "Swift": 1, "RxSwift": 1, "VIPER": 1, "Nginx": 1, "Yii2": 1, "MySQL": 1}
+

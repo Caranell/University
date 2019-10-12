@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+5 days 07:56:32.470931|5 days 07:56:32.470931|5 days 07:56:32.470931
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"PostgreSQL": 1, "Python": 1, "Django": 1, "Flask": 1, "DevOps": 1, "Kubernetes": 1, "GitLab CI": 1, "Celery": 1, "Redis": 1, "RabbitMQ": 1, "ООП": 1}
+

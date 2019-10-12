@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+5 days 07:56:33.897669|5 days 07:56:33.897669|5 days 07:56:33.897669
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"Java": 1, "Spring Framework": 1, "PostgreSQL": 1, "Hibernate": 1, "Mockito": 1, "JUnit": 1, "Docker": 1, "Kubernetes": 1, "Git": 1}
+

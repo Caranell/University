@@ -1,0 +1,15 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+0 days 23:21:41.727454|5 days 01:27:07.060787|12 days 15:38:29.727454
+
+experience
+Нет опыта             2
+От 1 года до 3 лет    4
+
+employment-form
+Полная занятость    6
+
+employment-schedule
+Полный день    6
+
+{"Java": 1, "Linux": 1, "Python": 1, "Elasticsearch": 1, "Big Data": 1, "Git": 1, "JavaScript": 2, "AngularJS": 1, "PHP": 1, "1С-Битрикс": 1, "HTML": 1, "CSS": 1, "git/gitlab": 1, "UI-библиотеки": 1, "принципы MVC": 1}
+

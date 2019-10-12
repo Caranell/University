@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+9 days 04:43:47.294814|9 days 04:43:47.294814|9 days 04:43:47.294814
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"3D Моделирование": 1, "3ds Max": 1, "3D-графика": 1, "Autodesk Maya": 1, "Adobe Photoshop": 1, "Дизайн": 1, "CorelDRAW": 1, "AutoCAD": 1, "Adobe Illustrator": 1}
+

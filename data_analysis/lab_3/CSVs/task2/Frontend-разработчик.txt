@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+0 days 21:45:43.358920|7 days 19:45:59.758920|24 days 02:18:47.358920
+
+experience
+От 1 года до 3 лет    5
+
+employment-form
+Полная занятость    5
+
+employment-schedule
+Полный день    5
+
+{"Веб-программирование": 1, "HTML5": 2, "jQuery": 2, "CSS3": 2, "Ajax": 2, "Git": 4, "JavaScript": 5, "Кроссбраузерная верстка": 1, "Валидная верстка": 1, "Sass": 1, "JSON API": 1, "VUE": 1, "PHP": 1, "1С-Битрикс": 1, "CSS": 2, "ООП": 1, "MySQL": 1, "CMS Wordpress": 1, "HTML": 2, "TypeScript": 1, "Mobx": 1, "Redux": 1, "Ext JS": 1, "ANT": 1, "React": 1, "npm": 1, "Linux": 1, "rhino": 1, "sencha": 1, "Node.js": 1}
+

@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+3 days 06:11:07.390162|3 days 06:11:07.390162|3 days 06:11:07.390162
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"Sass": 1, "Less": 1, "postcss": 1, "Gulp": 1, "webpack": 1, "react js": 1, "vue js": 1, "AngularJS": 1, "CentOS": 1, "Nginx": 1, "PostgreSQL": 1}
+

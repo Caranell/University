@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+9 days 02:25:27.645861|9 days 02:25:27.645861|9 days 02:25:27.645861
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Полный день    1
+
+{"MS SQL": 1, "Terraform": 1, "MS Windows": 1, "Active Directory": 1, "Group policy": 1, "WinRM": 1, "Linux": 1, "Packer": 1, "RabbitMQ": 1, "Jenkins": 1, "Zabbix": 1, "Sonarqube": 1}
+

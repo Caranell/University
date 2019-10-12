@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+5 days 07:56:32.408510|5 days 07:56:32.408510|5 days 07:56:32.408510
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Гибкий график    1
+
+{"Git": 1, "iOS": 1, "AppStore": 1, "UI/Unit": 1, "Swift": 1, "Realm": 1, "SQLite": 1, "Auto Layout": 1, "CocoaPods": 1, "Core data": 1, "UIKit": 1}
+

@@ -1,0 +1,15 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+1 days 01:28:49.413961|2 days 20:08:19.747294|4 days 06:09:40.413961
+
+experience
+От 1 года до 3 лет    3
+
+employment-form
+Полная занятость    3
+
+employment-schedule
+Полный день         2
+Удаленная работа    1
+
+{"iOS": 2, "CoreData": 1, "Objective-C": 2, "JSON": 1, "Git": 1, "Swift": 1, "RxSwift": 1, "VIPER": 1, "Clean Architecture": 1, "Unit Testing": 1}
+

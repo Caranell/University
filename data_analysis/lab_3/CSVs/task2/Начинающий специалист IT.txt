@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+1 days 06:32:54.633661|1 days 06:32:54.633661|1 days 06:32:54.633661
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Гибкий график    1
+
+{"Java": 1, "Spring Framework": 1, "PostgreSQL": 1, "HTML": 1, "CSS": 1, "Python": 1, "JavaScript": 1, "Ruby": 1, "PHP": 1, "Git": 1, "ООП": 1}
+

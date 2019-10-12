@@ -1,0 +1,14 @@
+Время от создания вакансии (минимальное|среднее|максимальное)
+11 days 07:16:57.525855|11 days 07:16:57.525855|11 days 07:16:57.525855
+
+experience
+От 1 года до 3 лет    1
+
+employment-form
+Полная занятость    1
+
+employment-schedule
+Удаленная работа    1
+
+{"Adobe Illustrator": 1, "Adobe Photoshop": 1, "Adobe InDesign": 1, "Adobe After Effect": 1, "UI": 1}
+
