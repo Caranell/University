@@ -55,13 +55,14 @@ def analyse_group(df_group, task_num, original_df=[]):
         df_group.alternateName = df_group.alternateName.values[0].replace(
             '/', '-').replace('"', '-')
     file = open('CSVs/task' + task_num + '/' +
-                df_group.alternateName+'.txt', 'a+')
+                df_group.alternateName+'.txt', 'w+')
     if (task_num == '2'):
         salary_groups = split_on_salary_groups(df_group, original_df)
+        # count all salary_groups length
         for group in salary_groups:
             if len(group) > 0:
-                file.write(group.alternateName + '    ' + str(len(group)) + '\n')
-        # count all salary_groups length
+                file.write(group.alternateName + '    ' +
+                           str(len(group)) + '\n')
 
     if (task_num == '1'):
         file.write(df_group.groupby('name').size().to_string()+'\n\n')  # a
