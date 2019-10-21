@@ -1,25 +1,42 @@
-# group by
-# split " ", "-"
-# overlap developer-программист-разработчик
-# delete junior/senior/
-import csv
 import pandas as pd
 
 df = pd.read_csv("vacancies_data.csv")
 
-#name_groups = [x for _, x in df.groupby("name")]
-#names = [_ for _, x in df.groupby("name")]
-df['name'] = df['name'].str.lower().replace('программист', 'разработчик', regex=True).replace("[()-/]", " ", regex=True).replace("junior", " ", regex=True).replace("веб", "web", regex=True).replace("angular", " ", regex=True).replace("react", " ", regex=True).replace("vue", " ", regex=True).replace("middle", " ", regex=True).replace("senior",
-                                                                                                                                                                                                      " ", regex=True).replace("программист", "разработчик", regex=True).replace("developer", "разработчик", regex=True).replace("\s+", " ", regex=True).replace('c', 'с', regex=True).replace('монтажник.*', 'монтажник', regex=True).str.strip()
-# print(df.name)
-# for name in df.name:
-#     print(name)
-# print(df['name'])
-# df["name"] = df["name"].str.lower().replace("-", " ").replace("(", " ").replace(")", " ").replace("junior", " ").replace("middle", " ").replace("senior",
-#                                                                                                                                                " ").replace("программист", "разработчик").replace("developer", "разработчик").replace("\s+", " ", regex=True)
-# print(df.name.unique())
+# normalize strings
+df['name'] = df['name'].str.lower().replace('[-,/]', ' ', regex=True).replace('\(.*\)',
+                                                                             '', regex=True).replace('c', 'с', regex=True)
+# remove
+df['name'] = df['name'].str.replace('(.*)г\..*', '\g<1>', regex=True)
+df['name'] = df['name'].str.replace('автор.*', 'автор', regex=True)
+df['name'] = df['name'].str.replace('агент.*', 'агент', regex=True)
+df['name'] = df['name'].str.replace('продавец.*', 'продавец', regex=True)
+df['name'] = df['name'].str.replace('серверный|сервис|сервисный|сетевой', 'системный', regex=True)
+df['name'] = df['name'].str.replace('инженер.*', 'инженер', regex=True)
+df['name'] = df['name'].str.replace('техник.*', 'техник', regex=True)
+df['name'] = df['name'].str.replace('.*менеджер.*', 'менеджер', regex=True)
+df['name'] = df['name'].str.replace('оператор.*', 'оператор', regex=True)
+df['name'] = df['name'].str.replace('монтажник.*', 'монтажник', regex=True)
+df['name'] = df['name'].str.replace('.*аналитик.*', 'аналитик', regex=True)
+df['name'] = df['name'].str.replace('руководитель.*|начальник.*|главный.*|ведущий.*', 'руководитель', regex=True)
+df['name'] = df['name'].str.replace('педагог.*|преподаватель.*|учитель.*', 'преподаватель', regex=True)
+df['name'] = df['name'].str.replace('\[.*\]', '', regex=True)
+df['name'] = df['name'].str.replace('(.*)(\s\d?\s)категории.*', '\g<1>', regex=True)
+df['name'] = df['name'].str.replace('программист|developer', 'разработчик', regex=True).replace('веб', 'web', regex=True)
+df['name'] = df['name'].str.replace('стажер|младший|junior|middle|senior|старший', '', regex=True)
+df['name'] = df['name'].str.replace('.*разработчик 1\s?с.*', 'разработчик 1с', regex=True)
+
+df['name'] = df['name'].str.strip().replace('\s+', ' ', regex=True)
+# путь 1 - сделать 50 replace'ов - некрасиво но действенно
+# путь 2`
+#
+
 i = 0
+file = open('test_data.txt', 'w+', encoding="utf-8")
 for _, x in df.groupby("name"):
+    file.write(_+'\n')
+    
+    print(type(x))
     print('--'+_+'--')
     i += 1
 print(i)
+file.close();
