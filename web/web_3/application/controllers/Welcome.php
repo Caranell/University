@@ -6,6 +6,7 @@ class Welcome extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->database();
 		$this->load->helper('url', 'form');
 		$this->load->helper('download');
 		$this->load->helper('print_matrix_helper');
