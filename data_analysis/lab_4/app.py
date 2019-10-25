@@ -27,15 +27,13 @@ df['name'] = df['name'].str.replace('.*разработчик 1\s?с.*', 'раз
 
 df['name'] = df['name'].str.strip().replace('\s+', ' ', regex=True)
 # путь 1 - сделать 50 replace'ов - некрасиво но действенно
-# путь 2`
+# путь 2 - сделать 15-20 групп руками (backend|back-end,...), потом df.loc пройтись по соответствиям
 #
 
 i = 0
 file = open('test_data.txt', 'w+', encoding="utf-8")
 for _, x in df.groupby("name"):
     file.write(_+'\n')
-    
-    print(type(x))
     print('--'+_+'--')
     i += 1
 print(i)
