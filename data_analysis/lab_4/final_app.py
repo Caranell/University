@@ -17,7 +17,6 @@ df['name'] = df['name'].str.replace('1\s?с', '1с', regex=True)
 df['name'] = df['name'].str.replace(
     '.*web.*|.*full\s?staсk.*|.*baсkend.*|.*frontend.*', 'web', regex=True)
 
-df['name'] = df['name'].str.strip().replace('\s+', ' ', regex=True)
 df['name'] = df['name'].str.replace(
     'devops', 'администратор', regex=True)
 df['name'] = df['name'].str.replace(
@@ -26,7 +25,7 @@ df['name'] = df['name'].str.replace(
     'бд', 'баз данных', regex=True)
 df['name'] = df['name'].str.strip().replace('\s+', ' ', regex=True)
 
-groups = ['автор', 'агент', 'продавец', 'инженер', 'техник', 'менеджер', 'оператор', 'аналитик', 'монтажник', 'преподаватель', 'консультант', '1с', 'java', 'js', 'python',
+groups = ['автор', 'project', 'агент', 'продавец', 'инженер', 'техник', 'менеджер', 'оператор', 'аналитик', 'монтажник', 'преподаватель', 'консультант', '1с', 'java', 'js', 'python',
                                         'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик']
 
 

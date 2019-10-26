@@ -82,9 +82,9 @@ def analyse_group(df_group, task_num, original_df=[]):
 
 df = pd.read_csv('./CSVs/vacancies_data.csv')
 df = df.sort_values(by=['min-salary', 'max-salary'])
-# salary_groups = split_on_salary_groups(df, df)
-# for salary_group in salary_groups:
-#     analyse_group(salary_group, '1')
+salary_groups = split_on_salary_groups(df, df)
+for salary_group in salary_groups:
+    analyse_group(salary_group, '1')
 
 name_groups = [x for _, x in df.groupby('name')]
 for name_group in name_groups:
