@@ -1,21 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import CarsTable from './components/CarsTable'
-import Contributing from './components/Contributing'
+import React from "react";
+import ReactDOM from "react-dom";
+import CarsTable from "./components/CarsTable";
+import Editing from "./components/EditWindow";
 
-const elements = document.getElementsByClassName('App');
-// const page = document.getElementById('CarsTable').innerHTML;
+const elements = document.getElementsByClassName("App");
+const id = document.getElementById("Editing").innerHTML;
 for (const element of elements) {
-	switch (element.id) {
-			case 'CarsTable':
-					ReactDOM.render((<CarsTable />),
-							document.getElementById('CarsTable'));
-					break
-			case 'Contributing':
-					ReactDOM.render((<Contributing />),
-							document.getElementById('Contributing'));
-					break
-			default:
-					break
-	}
+  switch (element.id) {
+    case "CarsTable":
+      ReactDOM.render(<CarsTable />, document.getElementById("CarsTable"));
+      break;
+    case "Editing":
+      ReactDOM.render(<Editing id={id} />, document.getElementById("Editing"));
+      break;
+    default:
+      break;
+  }
 }

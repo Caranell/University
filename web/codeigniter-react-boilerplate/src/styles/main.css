@@ -7,3 +7,9 @@
 .pagination__wrapper {
   text-align: center;
 }
+.wrapper-div {
+  margin-top: 10px;
+}
+label {
+  margin-top: 20px;
+}

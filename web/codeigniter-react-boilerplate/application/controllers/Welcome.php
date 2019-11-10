@@ -21,7 +21,12 @@ class Welcome extends CI_Controller
 		$this->cars_model->generateCars(147000);
 		$this->cars_model->getCars();
 	}
-
+	public function modifyRecord($id = 898889)
+	{
+		load_js(["app"], "js_assets");
+		$data['id'] = $id;
+		$this->load->view('editing', $data);
+	}
 	public function getPageRecords($page = 1)
 	{
 		header('Content-Type: application/json');
@@ -41,7 +46,6 @@ class Welcome extends CI_Controller
 
 	public function item()
 	{
-		load_js(["app"], "js_assets");
 		$this->load->view('contributing');
 	}
 

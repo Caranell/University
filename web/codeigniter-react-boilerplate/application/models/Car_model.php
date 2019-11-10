@@ -24,7 +24,7 @@ class Car_model extends CI_Model
 	function getRecord($id)
 	{
 		$query = $this->db->get_where('cars_table', array('id' => $id));
-		$data = $query->result();
+		$data['item'] = $query->result();
 		echo json_encode($data);
 	}
 	function getPageRecords($page, $filter, $sort)

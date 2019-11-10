@@ -90,7 +90,7 @@ class CarsTable extends React.Component {
         {
           method: "POST",
           headers: {
-						'Accept': 'application/json',
+            Accept: "application/json",
             "Content-Type": "application/json; charset=UTF-8"
           },
           body: JSON.stringify({
@@ -99,7 +99,7 @@ class CarsTable extends React.Component {
           })
         }
       );
-			const result = await response.json();
+      const result = await response.json();
       if (result.error) {
         throw new Error("result.message");
       }
@@ -149,6 +149,7 @@ class CarsTable extends React.Component {
                     {header}
                   </th>
                 ))}
+                <th>editing</th>
               </tr>
             </thead>
             <tbody>
@@ -157,6 +158,15 @@ class CarsTable extends React.Component {
                   {Object.keys(row).map((cell, cell_idx) => (
                     <td key={cell_idx}>{row[cell]}</td>
                   ))}
+                  <td>
+                    <strong onClick={() => this.editRecord(row["id"])}>
+                      update{" "}
+                    </strong>
+                    <strong onClick={() => this.deleteRecord(row["id"])}>
+                      {" "}
+                      delete
+                    </strong>
+                  </td>
                 </tr>
               ))}
             </tbody>
