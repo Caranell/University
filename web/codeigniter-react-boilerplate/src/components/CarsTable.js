@@ -37,7 +37,27 @@ class CarsTable extends React.Component {
 
   applyFilter = () => {};
 
-  updateSorting = column => {};
+  updateSorting = sortColumn => {
+    const { sort } = this.state;
+    let newDirection;
+    if (sortColumn === sort.column) {
+      newDirection = sort.direction === "ASC" ? "DESC" : "ASC";
+    } else {
+      newDirection = "DESC";
+    }
+    this.setState(
+      {
+        ...this.state,
+        sort: {
+          column: sortColumn,
+          direction: newDirection
+        }
+      },
+      () => {
+        this.getData();
+      }
+    );
+  };
 
   handlePagination = pagination => {
     const body = new DOMParser().parseFromString(pagination, "text/html").body
@@ -62,57 +82,29 @@ class CarsTable extends React.Component {
     return links;
   };
 
-  // handleLinks = (pagination, page) => {
-  //   const hrefs = pagination.match(/http.*?"/g).map(item => item.slice(0, -1));
-  //   const linksTexts = pagination
-  //     .match(/>.*?</g)
-  //     .map(item => item.slice(1, -1))
-  //     .filter(item => !!item);
-  //   const innerNumbers = pagination
-  //     .match(/"\d+"/g)
-  //     .map(item => +item.slice(1, -1));
-  //   console.log("innerNumbers", innerNumbers);
-  //   console.log("hrefs", hrefs);
-  //   console.log("linksTexts", linksTexts);
-
-  //   const links = this.hanglePagination(pagination);
-  //   for (let i in linksTexts) {
-  //     let newVal;
-  //     if (page !== +linksTexts[i]) {
-  //       newVal = {
-  //         link: hrefs[i],
-  //         text: linksTexts[i],
-  //         pageNum: innerNumbers[i]
-  //       };
-  //     } else {
-  //       newVal = { text: linksTexts[i] };
-  //     }
-  //     links.push(newVal);
-  //     console.log("newVal", newVal);
-  //   }
-  //   return links;
-  // };
-
   getData = async link => {
     try {
+      const { filter, sort } = this.state;
       const response = await fetch(
         link ? link : `http://localhost:3000/welcome/getPageRecords/1`,
         {
-          method: "get",
+          method: "POST",
           headers: {
+						'Accept': 'application/json',
             "Content-Type": "application/json; charset=UTF-8"
-          }
+          },
+          body: JSON.stringify({
+            filter: filter,
+            sort: sort
+          })
         }
       );
-      const result = await response.json();
+			const result = await response.json();
       if (result.error) {
-        throw new Error(result.message);
+        throw new Error("result.message");
       }
-      // console.log('pagination', pagination);
       const { pagination, cars } = result;
       let page = ++result.page;
-      console.log("result.page", result.page);
-      console.log("page", page);
       const links = this.handlePagination(pagination);
       this.setState({
         ...this.state,
@@ -145,7 +137,6 @@ class CarsTable extends React.Component {
 
   render() {
     const { data, links, page } = this.state;
-    console.log("links :", links);
     const headers = data.length ? Object.keys(data[0]) : [];
     return (
       <div className="container">
@@ -154,7 +145,9 @@ class CarsTable extends React.Component {
             <thead>
               <tr>
                 {headers.map((header, idx) => (
-                  <th key={idx}>{header}</th>
+                  <th key={idx} onClick={() => this.updateSorting(header)}>
+                    {header}
+                  </th>
                 ))}
               </tr>
             </thead>

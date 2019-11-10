@@ -27,7 +27,7 @@ class Car_model extends CI_Model
 		$data = $query->result();
 		echo json_encode($data);
 	}
-	function getPageRecords($page)
+	function getPageRecords($page, $filter, $sort)
 	{
 		$allcount = $this->db->count_all('cars_table');
 		$per_page = 20;
@@ -35,8 +35,11 @@ class Car_model extends CI_Model
 			$page = ($page - 1) * $per_page;
 		}
 		$this->db->limit($per_page, $page);
+		if ($sort) {
+			$this->db->order_by($sort['column'], $sort['direction']);
+		}
 		$cars = $this->db->get('cars_table')->result_array();
-
+		$data['sort'] = $sort;
 		$config['base_url'] = base_url() . 'welcome/getPageRecords';
 		$config['use_page_numbers'] = TRUE;
 		$config['total_rows'] = $allcount;

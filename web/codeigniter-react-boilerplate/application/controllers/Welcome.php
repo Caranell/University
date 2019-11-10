@@ -25,9 +25,11 @@ class Welcome extends CI_Controller
 	public function getPageRecords($page = 1)
 	{
 		header('Content-Type: application/json');
-		$this->cars_model->getPageRecords($page);
+		$data = json_decode(file_get_contents('php://input'), true);
+		$this->cars_model->getPageRecords($page, $data['filter'], $data['sort']);
 	}
-	public function getRecord($id){
+	public function getRecord($id)
+	{
 		header('Content-Type: application/json');
 		$this->cars_model->getRecord($id);
 	}
@@ -42,7 +44,7 @@ class Welcome extends CI_Controller
 		load_js(["app"], "js_assets");
 		$this->load->view('contributing');
 	}
-	
+
 	public function testing()
 	{
 		$this->load->library('unit_test');
