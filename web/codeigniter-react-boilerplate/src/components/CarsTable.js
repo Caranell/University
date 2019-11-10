@@ -3,6 +3,9 @@ import { BASE_URL } from "../util/constants";
 import { Table, Button } from "react-bootstrap";
 import "../styles/main.css";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+
 class CarsTable extends React.Component {
   state = {
     data: [],
@@ -104,7 +107,7 @@ class CarsTable extends React.Component {
         throw new Error("result.message");
       }
       const { pagination, cars } = result;
-      let page = ++result.page;
+      let page = result.page;
       const links = this.handlePagination(pagination);
       this.setState({
         ...this.state,
@@ -124,15 +127,18 @@ class CarsTable extends React.Component {
   };
 
   editRecord = id => {
-    fetch(`http://localhost:3000/welcome/modifyRecord/${id}`, {
-      method: "get"
-    });
+    window
+      .open(`http://localhost:3000/welcome/modifyRecord/${id}`, "_self")
+      .close();
   };
 
-  deleteRecord = id => {
-    fetch(`http://localhost:3000/welcome/${id}`, {
-      method: "delete"
+  deleteRecord = async id => {
+    await fetch(`http://localhost:3000/welcome/deleteRecord/${id}`, {
+      method: "get"
     });
+    this.getData(
+      `http://localhost:3000/welcome/getPageRecords/${this.state.page}`
+    );
   };
 
   render() {
@@ -149,7 +155,7 @@ class CarsTable extends React.Component {
                     {header}
                   </th>
                 ))}
-                <th>editing</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -159,13 +165,15 @@ class CarsTable extends React.Component {
                     <td key={cell_idx}>{row[cell]}</td>
                   ))}
                   <td>
-                    <strong onClick={() => this.editRecord(row["id"])}>
-                      update{" "}
-                    </strong>
-                    <strong onClick={() => this.deleteRecord(row["id"])}>
-                      {" "}
-                      delete
-                    </strong>
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      onClick={() => this.editRecord(row["id"])}
+                      style={{ marginRight: "7px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrashAlt}
+                      onClick={() => this.deleteRecord(row["id"])}
+                    />
                   </td>
                 </tr>
               ))}
