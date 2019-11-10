@@ -15,38 +15,35 @@ class Welcome extends CI_Controller
 		$this->load->model('Car_model', 'cars_model');
 	}
 
-	public function test()
-	{
-		header('Content-Type: application/json');
-		$this->cars_model->generateCars(147000);
-		$this->cars_model->getCars();
-	}
 	public function modifyRecord($id = 898889)
 	{
 		load_js(["app"], "js_assets");
 		$data['id'] = $id;
 		$this->load->view('editing', $data);
 	}
+
 	public function getPageRecords($page = 1)
 	{
 		header('Content-Type: application/json');
 		$data = json_decode(file_get_contents('php://input'), true);
 		$this->cars_model->getPageRecords($page, $data['filter'], $data['sort']);
 	}
+
 	public function getRecord($id)
 	{
 		header('Content-Type: application/json');
 		$this->cars_model->getRecord($id);
 	}
+
+	public function deleteRecord($id)
+	{
+		$this->cars_model->deleteRecord($id);
+	}
+
 	public function table()
 	{
 		load_js(["app"], "js_assets");
 		$this->load->view('welcome_message');
-	}
-
-	public function item()
-	{
-		$this->load->view('contributing');
 	}
 
 	public function testing()
@@ -55,6 +52,6 @@ class Welcome extends CI_Controller
 		$this->db->select('COUNT(license_plate)');
 		$this->db->join();
 		$this->db->distinct();
-		$test =  count($this->db->get('cars_table')->result());
+		$test = count($this->db->get('cars_table')->result());
 	}
 }
