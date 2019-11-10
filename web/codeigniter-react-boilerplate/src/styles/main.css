@@ -1,0 +1,9 @@
+.table__wrapper {
+  margin-top: 50px;
+}
+.page-item:hover {
+  cursor: pointer;
+}
+.pagination__wrapper {
+  text-align: center;
+}
