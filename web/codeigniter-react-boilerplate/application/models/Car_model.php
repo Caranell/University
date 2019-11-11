@@ -31,7 +31,7 @@ class Car_model extends CI_Model
 		if ($sort) {
 			$this->db->order_by($sort['column'], $sort['direction']);
 		}
-		if ($filter){
+		if ($filter) {
 			//TODO
 		}
 
@@ -45,7 +45,7 @@ class Car_model extends CI_Model
 		$config['per_page'] = $per_page;
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
-		
+
 		$data['cars'] = $cars;
 		$data['page'] = $page;
 
@@ -66,15 +66,17 @@ class Car_model extends CI_Model
 			'owner' => $data['owner']
 		);
 		if ($this->checkUnique($data['license_plate'])) {
-			if ($data['id']) {
-				$this->db->where('id');
+			if (isset($data['id'])) {
+				$this->db->where('id', $data['id']);
 				$this->db->update('cars_table', $new_data);
 			} else {
 				$this->db->insert('cars_table', $new_data);
 			}
+			$error = false;
 		} else {
-			echo 'you have an error'; //TODO
+			$error = true;
 		}
+		echo json_encode($error);
 	}
 
 	function deleteRecord($id)
@@ -88,7 +90,7 @@ class Car_model extends CI_Model
 		return !(count($test_plate));
 	}
 
-	function genereateRecords($number)
+	function generateRecords($number)
 	{
 		$body_arr = getBodiesArray();
 		$brands_arr = getBrandsArray();

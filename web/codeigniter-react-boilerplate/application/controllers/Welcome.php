@@ -15,11 +15,22 @@ class Welcome extends CI_Controller
 		$this->load->model('Car_model', 'cars_model');
 	}
 
-	public function modifyRecord($id = 898889)
+	public function modifyRecord()
 	{
+		$id = $this->input->get('id');
 		load_js(["app"], "js_assets");
 		$data['id'] = $id;
 		$this->load->view('editing', $data);
+	}
+
+	public function submitRecord()
+	{
+		header('Content-Type: application/json');
+		// $data = json_decode(file_get_contents('php://input'), true);
+		// echo $data['item']['license_plate'];
+		$data = json_decode(file_get_contents('php://input'), true);
+		// echo $data['item'];
+		$this->cars_model->editRecord($data['item']);
 	}
 
 	public function getPageRecords($page = 1)
@@ -44,6 +55,13 @@ class Welcome extends CI_Controller
 	{
 		load_js(["app"], "js_assets");
 		$this->load->view('welcome_message');
+	}
+
+	public function generateUniqueRecord()
+	{
+		header('Content-Type: application/json');
+		$data = $this->cars_model->generateRecords(1)[0];
+		echo json_encode($data);
 	}
 
 	public function testing()

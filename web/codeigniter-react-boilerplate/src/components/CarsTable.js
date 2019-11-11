@@ -4,7 +4,12 @@ import { Table, Button } from "react-bootstrap";
 import "../styles/main.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faEdit,
+  faSortAmountDown,
+  faSortAmountUpAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 class CarsTable extends React.Component {
   state = {
@@ -128,7 +133,7 @@ class CarsTable extends React.Component {
 
   editRecord = id => {
     window
-      .open(`http://localhost:3000/welcome/modifyRecord/${id}`, "_self")
+      .open(`http://localhost:3000/welcome/modifyRecord?id=${id || ''}`, "_self")
       .close();
   };
 
@@ -142,10 +147,11 @@ class CarsTable extends React.Component {
   };
 
   render() {
-    const { data, links, page } = this.state;
-    const headers = data.length ? Object.keys(data[0]) : [];
+    const { data, links, page, sort } = this.state;
+		const headers = data.length ? Object.keys(data[0]) : [];
     return (
       <div className="container">
+				<Button onClick={()=> this.editRecord()}>Add</Button>
         <div className="table__wrapper">
           <Table striped bordered hover responsive>
             <thead>
@@ -153,6 +159,18 @@ class CarsTable extends React.Component {
                 {headers.map((header, idx) => (
                   <th key={idx} onClick={() => this.updateSorting(header)}>
                     {header}
+                    {sort.column === header ? (
+                      <FontAwesomeIcon
+                        style={{ marginLeft: "8px" }}
+                        icon={
+                          sort.direction === "ASC"
+                            ? faSortAmountUpAlt
+                            : faSortAmountDown
+                        }
+                      />
+                    ) : (
+                      ""
+                    )}
                   </th>
                 ))}
                 <th></th>

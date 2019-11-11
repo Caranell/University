@@ -13,3 +13,9 @@
 label {
   margin-top: 20px;
 }
+td {
+  max-width: 225px;
+}
+th {
+  max-width: 225px;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../styles/main.css";
-
+import { Button } from "react-bootstrap";
 class Editing extends Component {
   state = {
     item: {
@@ -17,25 +17,35 @@ class Editing extends Component {
     errors: {}
   };
 
-  onSubmit = async () => {
+  hasErrors = () => {
+    const { errors } = this.state;
+    const foundErrors = Object.values(errors).filter(item => !!item);
+    return foundErrors.length;
+  };
+
+  onSubmit = async e => {
     try {
+      e.preventDefault();
       const { id } = this.props;
       const { item } = this.state;
       const hasId = typeof id !== "undefined";
       const response = await fetch(
-        `http://localhost:3000/welcome/modifyRecord/${hasId ? id : ""}`,
+        `http://localhost:3000/welcome/submitRecord`,
         {
           method: "post",
           headers: {
             "Content-Type": "application/json; charset=UTF-8"
           },
-          body: JSON.stringify(item)
+          body: JSON.stringify({ item: item })
         }
       );
-      if (response.error) {
-        throw new Error(response.message);
+      const result = await response.json();
+      console.log("result", result);
+      if (result) {
+        alert("your license_plate is not unique");
+      } else {
+        window.open(`http://localhost:3000/welcome/table`, "_self").close();
       }
-      fetch("http://localhost:3000/welcome/table");
     } catch (err) {
       console.log(err);
     }
@@ -112,11 +122,11 @@ class Editing extends Component {
           : this.setState({ errors: { ...this.state.errors, [key]: "" } });
         break;
       case "production_date":
-        !["couple", "SUV", "hatchback", "sedan"].includes(value)
+        !value.match(/^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/)
           ? this.setState({
               errors: {
                 ...this.state.errors,
-                [key]: "неподдерживаемый тип автомобиля"
+                [key]: "некорректный тип даты"
               }
             })
           : this.setState({ errors: { ...this.state.errors, [key]: "" } });
@@ -144,10 +154,26 @@ class Editing extends Component {
     }
   };
 
-	getGeneratedValues = () => {
-		
-	};
-	
+  getGeneratedValues = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/welcome/generateUniqueRecord`,
+        {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8"
+          }
+        }
+      );
+      const result = await response.json();
+      this.setState({
+        item: result
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     const { item, errors } = this.state;
     return (
@@ -155,8 +181,12 @@ class Editing extends Component {
         className="container"
         style={{ display: "flex", "justify-content": "center" }}
       >
-        <div className="edit-form__wrapper jusify-content-center">
-          <form>
+        <div
+          className="edit-form__wrapper jusify-content-center"
+          style={{ width: "380px" }}
+        >
+          <Button onClick={() => this.getGeneratedValues()}>generate </Button>
+          <form onSubmit={e => this.onSubmit(e)}>
             {Object.keys(item).map((key, idx) =>
               key !== "id" ? (
                 <div key={idx} className=" form-group text-center wrapper-div">
@@ -166,7 +196,7 @@ class Editing extends Component {
                       className="form-control"
                       id={key}
                       required
-                      value={item[key] || ""}
+                      value={typeof item[key] !== "undefined" ? item[key] : ""}
                       onChange={e => {
                         this.handleChange(e);
                       }}
@@ -184,7 +214,11 @@ class Editing extends Component {
             )}
             <div className=" form-group text-center wrapper-div">
               <div style={{ "margin-top": "30px" }}>
-                <button type="submit" className="btn btn-wrning">
+                <button
+                  type="submit"
+                  disabled={this.hasErrors()}
+                  className="btn btn-wrning"
+                >
                   отправить
                 </button>
               </div>
