@@ -6,5 +6,7 @@ data_analysis/lab_2/vacancies_data.csv
 data_analysis/lab_3/CSVs/task2
 data_analysis\lab_3\CSVs\task2
 web/web_2/uploads
+web/web_3/user_guide
 .vscode
 desktop.ini
+web/web_3/application/config/database.php

@@ -110,7 +110,6 @@ $mobiles = array(
 	// Phones and Manufacturers
 	'motorola'		=> 'Motorola',
 	'nokia'			=> 'Nokia',
-	'nexus'			=> 'Nexus',
 	'palm'			=> 'Palm',
 	'iphone'		=> 'Apple iPhone',
 	'ipad'			=> 'iPad',
@@ -151,7 +150,6 @@ $mobiles = array(
 	'wii'			=> 'Nintendo Wii',
 	'open web'		=> 'Open Web',
 	'openweb'		=> 'OpenWeb',
-	'meizu'                 => 'Meizu',
 
 	// Operating Systems
 	'android'		=> 'Android',
