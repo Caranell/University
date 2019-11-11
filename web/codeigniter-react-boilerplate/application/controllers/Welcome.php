@@ -39,7 +39,10 @@ class Welcome extends CI_Controller
 		$data = json_decode(file_get_contents('php://input'), true);
 		$this->cars_model->getPageRecords($page, $data['filter'], $data['sort']);
 	}
-
+	public function countries(){
+		header('Content-Type: application/json');
+		$this->cars_model->getCountries();
+	}
 	public function getRecord($id)
 	{
 		header('Content-Type: application/json');
@@ -60,7 +63,15 @@ class Welcome extends CI_Controller
 	public function generateUniqueRecord()
 	{
 		header('Content-Type: application/json');
-		$data = $this->cars_model->generateRecords(1)[0];
+		$save = false;
+		$data = $this->cars_model->generateRecords(1, $save)[0];
+		echo json_encode($data);
+	}
+	public function generateUniqueRecords($number)
+	{
+		header('Content-Type: application/json');
+		$save = true;
+		$data = $this->cars_model->generateRecords($number, $save);
 		echo json_encode($data);
 	}
 

@@ -26,22 +26,57 @@ class Car_model extends CI_Model
 		if ($page != 0) {
 			$offset = ($page - 1) * $per_page;
 		}
-		$this->db->limit($per_page, $page);
 
-		if ($sort) {
+		if (isset($sort)) {
 			$this->db->order_by($sort['column'], $sort['direction']);
 		}
-		if ($filter) {
-			//TODO
+
+		if (isset($filter)) {
+			if (is_array($filter)) {
+				if (isset($filter['car4x4']) && $filter['car4x4']['value'] !== null) {
+					$this->db->like('car4x4', $filter['car4x4']['value']);
+				}
+				if (isset($filter['body']) && $filter['body']['value'] !== null) {
+					$this->db->like('body', $filter['body']['value']);
+				}
+				if (isset($filter['country']) && $filter['country']['value'] !== null) {
+					$this->db->like('country', $filter['country']['value']);
+				}
+				if (isset($filter['date_from']) && $filter['date_from']['value'] !== null) {
+					$this->db->where('production_date >=', $filter['date_from']['value']);
+				}
+				if (isset($filter['date_to']) && $filter['date_to']['value'] !== null) {
+					$this->db->where('production_date <=', $filter['date_to']['value']);
+				}
+			}
 		}
-
-
+		$count = count($this->db->get('cars_table')->result_array());
+		$this->db->limit($per_page, $page);
+		if (isset($filter)) {
+			if (is_array($filter)) {
+				if (isset($filter['car4x4']) && $filter['car4x4']['value'] !== null) {
+					$this->db->like('car4x4', $filter['car4x4']['value']);
+				}
+				if (isset($filter['body']) && $filter['body']['value'] !== null) {
+					$this->db->like('body', $filter['body']['value']);
+				}
+				if (isset($filter['country']) && $filter['country']['value'] !== null) {
+					$this->db->like('country', $filter['country']['value']);
+				}
+				if (isset($filter['date_from']) && $filter['date_from']['value'] !== null) {
+					$this->db->where('production_date >=', $filter['date_from']['value']);
+				}
+				if (isset($filter['date_to']) && $filter['date_to']['value'] !== null) {
+					$this->db->where('production_date <=', $filter['date_to']['value']);
+				}
+			}
+		}
 		$cars = $this->db->get('cars_table')->result_array();
 
 		// pagination
 		$config['base_url'] = base_url() . 'welcome/getPageRecords';
 		$config['use_page_numbers'] = TRUE;
-		$config['total_rows'] = $countAll;
+		$config['total_rows'] = $count;
 		$config['per_page'] = $per_page;
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
@@ -51,7 +86,6 @@ class Car_model extends CI_Model
 
 		echo json_encode($data);
 	}
-
 	function editRecord($data)
 	{
 		$new_data = array(
@@ -90,7 +124,7 @@ class Car_model extends CI_Model
 		return !(count($test_plate));
 	}
 
-	function generateRecords($number)
+	function generateRecords($number, $save)
 	{
 		$body_arr = getBodiesArray();
 		$brands_arr = getBrandsArray();
@@ -114,9 +148,11 @@ class Car_model extends CI_Model
 			);
 			if ($this->checkUnique($data['license_plate'])) {
 				array_push($generatedCars, $data);
+				if ($save) {
+					$this->db->insert('cars_table', $data);
+				}
 			} else {
 				$number++;
-				//$this->db->insert('cars_table', $data);
 			}
 		}
 		return $generatedCars;
