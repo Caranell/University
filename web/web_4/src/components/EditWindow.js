@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/main.css";
 import { Button } from "react-bootstrap";
+
 class Editing extends Component {
   state = {
     item: {

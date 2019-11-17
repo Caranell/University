@@ -38,10 +38,16 @@ class CarsTable extends React.Component {
     sort: {
       column: null,
       direction: null
-    }
+    },
+    user_roles: []
   };
 
   async componentDidMount() {
+    const roles = await JSON.parse(localStorage.getItem("userData")).role;
+    this.setState({
+      user_roles: roles
+    });
+    // if [5, 4].includes(role_)
     await this.getData();
   }
 
@@ -104,8 +110,7 @@ class CarsTable extends React.Component {
 
   getData = async link => {
     try {
-			const { filter, sort } = this.state;
-			console.log('filter', filter)
+      const { filter, sort } = this.state;
       const response = await fetch(
         link ? link : `http://localhost:3000/welcome/getPageRecords/1`,
         {
@@ -123,8 +128,8 @@ class CarsTable extends React.Component {
       const result = await response.json();
       if (result.error) {
         throw new Error("result.message");
-			}
-			const { pagination, cars } = result;
+      }
+      const { pagination, cars } = result;
       let page = result.page;
       const links = this.handlePagination(pagination);
       this.setState({
@@ -176,9 +181,6 @@ class CarsTable extends React.Component {
     e.persist();
     const { page } = this.state;
     let { name: field, value } = e.target;
-    // if (field === "car4x4") {
-    //   value = value != 1 || value != 0 ? 0 : value;
-    // }
     this.setState(
       {
         ...this.state,
@@ -196,16 +198,25 @@ class CarsTable extends React.Component {
   };
 
   render() {
-    const { data, links, sort, generateValues, filter } = this.state;
+    const {
+      data,
+      links,
+      sort,
+      generateValues,
+      filter,
+      user_roles
+    } = this.state;
     const headers = data.length ? Object.keys(data[0]) : [];
     return (
       <div className="container">
-        <Button
-          onClick={() => this.editRecord()}
-          style={{ margin: "20px auto" }}
-        >
-          Add
-        </Button>
+        {user_roles.includes(5) && (
+          <Button
+            onClick={() => this.editRecord()}
+            style={{ margin: "20px auto" }}
+          >
+            Add
+          </Button>
+        )}
         <div className="input-group">
           <Button
             style={{ marginLeft: "25px" }}
@@ -300,7 +311,7 @@ class CarsTable extends React.Component {
                     )}
                   </th>
                 ))}
-                <th></th>
+                {user_roles.includes(4) && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -309,17 +320,19 @@ class CarsTable extends React.Component {
                   {Object.keys(row).map((cell, cell_idx) => (
                     <td key={cell_idx}>{row[cell]}</td>
                   ))}
-                  <td>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      onClick={() => this.editRecord(row["id"])}
-                      style={{ marginRight: "7px" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faTrashAlt}
-                      onClick={() => this.deleteRecord(row["id"])}
-                    />
-                  </td>
+                  {user_roles.includes(4) && (
+                    <td>
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        onClick={() => this.editRecord(row["id"])}
+                        style={{ marginRight: "7px" }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrashAlt}
+                        onClick={() => this.deleteRecord(row["id"])}
+                      />
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
