@@ -24,7 +24,6 @@ def dummy_code_categories(df, field):
 	for name in cols:
 		df[f"{field}: {name}"] = cols[name]
 
-
 def fill_dummy_skill(df, skill):
 	df[skill] = df['key_skills'].apply(
 		lambda x: (1 if skill in x.lower() else 0)
@@ -45,7 +44,7 @@ def dummy_code_skills(df):
 		df[skill] = fill_dummy_skill(df, skill)
 	for skill in other_list:
 		df['other'] = df['key_skills'].apply(
-			lambda x: (1 if skill not in x else 0)
+			lambda x: (1 if skill not in x and x!='' else 0)
 		)
 	return df
 
@@ -54,10 +53,12 @@ def vacancy_groups(df):
 	groups = ['автор', 'project', 'агент', 'продавец', 'инженер', 'техник', 'менеджер', 'оператор', 'аналитик', 'монтажник', 'преподаватель', 'консультант', '1с', 'java', 'js', 'python',
 			  'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик']
 	for _, group in enumerate(groups):
-		name_group = df[(df['name'].str.contains(group, na=False, regex=False))]
+		name_group = df[(df['name'].str.contains(
+			group, na=False, regex=False))]
 		name_group = dummy_code_skills(name_group)
 		df = df[~df['name'].str.contains(group, na=False, regex=False)]
-		name_group.to_csv('groups/'+group+'.csv', index=False, encoding='utf-8')
+		name_group.to_csv('groups/'+group+'.csv',
+						  index=False, encoding='utf-8')
 	other = dummy_code_skills(df)
 	other.to_csv('groups/other.csv', index=False, encoding='utf-8')
 
