@@ -43,10 +43,10 @@ class CarsTable extends React.Component {
   };
 
   async componentDidMount() {
-    const roles = await JSON.parse(localStorage.getItem("userData")).role;
-    this.setState({
-      user_roles: roles
-    });
+    // const roles = await JSON.parse(localStorage.getItem("userData")).role;
+    // this.setState({
+    //   user_roles: roles
+    // });
     // if [5, 4].includes(role_)
     await this.getData();
   }

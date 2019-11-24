@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-
-export default class RoutingPage extends Component {
+class RoutingPage extends Component {
   state = {
-    user_roles: []
+    user_roles: [1, 2, 3, 4, 5]
   };
 
-  componentDidMount = () => {
-    const user_roles = JSON.parse(localStorage.getItem("userData")).roles;
+  componentDidMount = async () => {
+    const user_roles = await JSON.parse(localStorage.getItem("userData")).roles;
     this.setState({
       user_roles: user_roles
     });
@@ -21,17 +20,17 @@ export default class RoutingPage extends Component {
     return (
       <nav className="nav flex-column">
         {this.hasPermission([1, 2, 3, 4]) && (
-          <a className="nav-link" href="#">
+          <a className="nav-link" href={`http://localhost:3000/welcome/users`}>
             Users
           </a>
         )}
         {this.hasPermission([2, 3]) && (
-          <a className="nav-link" href="#">
+          <a className="nav-link" href={`http://localhost:3000/welcome/roles`}>
             Roles
           </a>
         )}
         {this.hasPermission([4, 5]) && (
-          <a className="nav-link" href="#">
+          <a className="nav-link" href={`http://localhost:3000/welcome/table`}>
             Data
           </a>
         )}
@@ -40,3 +39,5 @@ export default class RoutingPage extends Component {
   }
 }
 //TODO split(/[\s,]+/g)
+
+export default RoutingPage;
