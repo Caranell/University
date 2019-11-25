@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller
+class Rest extends CI_Controller
 {
 	public function __construct()
 	{
@@ -11,6 +11,28 @@ class Welcome extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('util');
 		$this->load->model('Car_model', 'cars_model');
+	}
+
+	public function list()
+	{
+		$method = $this->input->method(TRUE);
+		header('Content-Type: application/json');
+		switch ($method) {
+			case 'GET':
+				$offset = $this->input->get('offset', TRUE);
+				$sort = $this->input->get('sort', TRUE);
+				$direction = $this->input->get('direction', TRUE);
+				$this->cars_model->list($offset, $sort, $direction);
+				break;
+			case 'POST':
+				$data = json_decode(file_get_contents('php://input'), true);
+				$this->cars_model->editRecord($data['item']);
+				break;
+			case 'DELETE':
+				$id = $this->input->get('id', TRUE);
+				$this->cars_model->deleteRecord($id);
+				break;
+		}
 	}
 
 	public function modifyRecord()
@@ -31,16 +53,6 @@ class Welcome extends CI_Controller
 		$this->cars_model->editRecord($data['item']);
 	}
 
-	public function getPageRecords($page = 1)
-	{
-		header('Content-Type: application/json');
-		$data = json_decode(file_get_contents('php://input'), true);
-		$this->cars_model->getPageRecords($page, $data['filter'], $data['sort']);
-	}
-	public function countries(){
-		header('Content-Type: application/json');
-		$this->cars_model->getCountries();
-	}
 	public function getRecord($id)
 	{
 		header('Content-Type: application/json');

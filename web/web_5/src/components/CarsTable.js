@@ -14,54 +14,14 @@ import {
 class CarsTable extends React.Component {
   state = {
     data: [],
-    links: [],
-    page: 0,
-    generateValues: 1,
-    countries: [],
-    filter: {
-      body: {
-        value: null
-      },
-      country: {
-        value: null
-      },
-      date_from: {
-        value: null
-      },
-      date_to: {
-        value: null
-      },
-      car4x4: {
-        value: null
-      }
-    },
-    sort: {
-      column: null,
-      direction: null
-    },
-    user_roles: []
+    offset: 0,
+    sort: null,
+    direction: null
   };
 
   async componentDidMount() {
-    // const roles = await JSON.parse(localStorage.getItem("userData")).role;
-    // this.setState({
-    //   user_roles: roles
-    // });
-    // if [5, 4].includes(role_)
     await this.getData();
   }
-
-  getCountries = async () => {
-    const response = await fetch(`http://localhost:3000/welcome/countries`, {
-      method: "get"
-    });
-    const result = await response.json();
-    this.setState({
-      ...this.state,
-      countries: result
-    });
-  };
-  applyFilter = () => {};
 
   updateSorting = sortColumn => {
     const { sort } = this.state;
@@ -74,10 +34,8 @@ class CarsTable extends React.Component {
     this.setState(
       {
         ...this.state,
-        sort: {
-          column: sortColumn,
-          direction: newDirection
-        }
+        sort: sortColumn,
+        direction: newDirection
       },
       () => {
         this.getData();
@@ -85,58 +43,28 @@ class CarsTable extends React.Component {
     );
   };
 
-  handlePagination = pagination => {
-    const body = new DOMParser().parseFromString(pagination, "text/html").body
-      .children;
-    const links = [];
-    for (const element of body) {
-      switch (element.tagName) {
-        case "A":
-          links.push({
-            link: element.href,
-            text: element.innerHTML
-              .replace("&gt", ">")
-              .replace("&lt", "<")
-              .replace(";", "")
-          });
-          break;
-        case "STRONG":
-          links.push({ text: element.innerHTML });
-          break;
-      }
-    }
-    return links;
-  };
-
   getData = async link => {
     try {
-      const { filter, sort } = this.state;
+      const { sort, direction, offset } = this.state;
       const response = await fetch(
-        link ? link : `http://localhost:3000/welcome/getPageRecords/1`,
+        link
+          ? link
+          : `http://localhost:3000/Rest/list?sort=${sort}&direction=${direction}&offset=${offset}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json; charset=UTF-8"
-          },
-          body: JSON.stringify({
-            filter: filter,
-            sort: sort
-          })
+          }
         }
       );
       const result = await response.json();
       if (result.error) {
         throw new Error("result.message");
       }
-      const { pagination, cars } = result;
-      let page = result.page;
-      const links = this.handlePagination(pagination);
       this.setState({
         ...this.state,
-        data: cars,
-        links,
-        page: page
+        data: result.cars
       });
     } catch (err) {
       console.log(err);
@@ -145,68 +73,20 @@ class CarsTable extends React.Component {
 
   editRecord = id => {
     window
-      .open(
-        `http://localhost:3000/welcome/modifyRecord?id=${id || ""}`,
-        "_self"
-      )
+      .open(`http://localhost:3000/Rest/modifyRecord?id=${id || ""}`, "_self")
       .close();
   };
 
   deleteRecord = async id => {
-    await fetch(`http://localhost:3000/welcome/deleteRecord/${id}`, {
-      method: "get"
+    await fetch(`http://localhost:3000/Rest/list?id=${id}`, {
+      method: "DELETE"
     });
-    this.getData(
-      `http://localhost:3000/welcome/getPageRecords/${this.state.page}`
-    );
-  };
-
-  handleGeneratedNumber = e => {
-    let { value } = e.target;
-    value = value < 1 ? 1 : value;
-    this.setState({
-      ...this.state,
-      generateValues: value
-    });
-  };
-
-  generateRecords = () => {
-    const { generateValues } = this.state;
-    fetch(
-      `http://localhost:3000/welcome/generateUniqueRecords/${generateValues}`
-    );
-  };
-
-  handleFilterChange = e => {
-    e.persist();
-    const { page } = this.state;
-    let { name: field, value } = e.target;
-    this.setState(
-      {
-        ...this.state,
-        filter: {
-          ...this.state.filter,
-          [field]: {
-            value: value
-          }
-        }
-      },
-      () => {
-        this.getData(`http://localhost:3000/welcome/getPageRecords/${page}`);
-      }
-    );
+    this.getData(`http://localhost:3000/Rest/list`);
   };
 
   render() {
-    const {
-      data,
-      links,
-      sort,
-      generateValues,
-      filter,
-      user_roles
-    } = this.state;
-    const headers = data.length ? Object.keys(data[0]) : [];
+    const { data, sort, user_roles } = this.state;
+    const headers = data.length ? Object.keys(data[0]) : []; //TODO return generate to illustrate adding
     return (
       <div className="container">
         {user_roles.includes(5) && (
@@ -217,79 +97,6 @@ class CarsTable extends React.Component {
             Add
           </Button>
         )}
-        <div className="input-group">
-          <Button
-            style={{ marginLeft: "25px" }}
-            onClick={() => this.generateRecords()}
-          >
-            generate
-          </Button>
-          <input
-            className="form-control"
-            type="number"
-            value={generateValues}
-            min={1}
-            onChange={e => this.handleGeneratedNumber(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="input-group">
-          <label style={{ marginLeft: "25px" }}>Country</label>
-          <input
-            className="form-control"
-            type="text"
-            name="country"
-            value={filter.country.value}
-            onChange={e => this.handleFilterChange(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="input-group">
-          <label style={{ marginLeft: "25px" }}>Body</label>
-          <input
-            className="form-control"
-            type="text"
-            name="body"
-            value={filter.body.value}
-            onChange={e => this.handleFilterChange(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="input-group">
-          <label style={{ marginLeft: "25px" }}>car4x4</label>
-          <input
-            className="form-control"
-            type="number"
-            name="car4x4"
-            value={filter.car4x4.value}
-            min={0}
-            max={1}
-            onChange={e => this.handleFilterChange(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="input-group">
-          <label style={{ marginLeft: "25px" }}>date_from</label>
-          <input
-            className="form-control"
-            type="text"
-            name="date_from"
-            value={filter.date_from.value}
-            onChange={e => this.handleFilterChange(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="input-group">
-          <label style={{ marginLeft: "25px" }}>date_to</label>
-          <input
-            className="form-control"
-            type="text"
-            name="date_to"
-            value={filter.date_to.value}
-            onChange={e => this.handleFilterChange(e)}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
         <div className="table__wrapper">
           <Table striped bordered hover responsive>
             <thead>
@@ -338,32 +145,6 @@ class CarsTable extends React.Component {
             </tbody>
           </Table>
         </div>
-        <nav className="pagination__wrapper">
-          <ul className="pagination pagination__links justify-content-center">
-            {links.map((item, idx) =>
-              item.link ? (
-                <li key={idx} className="page-item">
-                  <a
-                    className="page-link"
-                    onClick={() => {
-                      this.getData(item.link);
-                    }}
-                  >
-                    {item.text}
-                  </a>
-                </li>
-              ) : (
-                <li
-                  key={idx}
-                  className="page-item active"
-                  style={{ color: "red" }}
-                >
-                  <a className="page-link">{item.text}</a>
-                </li>
-              )
-            )}
-          </ul>
-        </nav>
       </div>
     );
   }

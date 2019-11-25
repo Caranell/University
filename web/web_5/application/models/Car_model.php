@@ -19,6 +19,21 @@ class Car_model extends CI_Model
 		echo json_encode($data);
 	}
 
+	function list($offset, $sort, $direction)
+	{
+		if (isset($sort)) {
+			$this->db->order_by($sort, $direction);
+		}
+
+		$this->db->limit(50, $offset);
+
+		$cars = $this->db->get('cars_table')->result_array();
+
+		$data['cars'] = $cars;
+
+		echo json_encode($data);
+	}
+
 	function getPageRecords($page, $filter, $sort)
 	{
 		$countAll = $this->db->count_all('cars_table');
@@ -51,7 +66,7 @@ class Car_model extends CI_Model
 			}
 		}
 		$this->db->limit($per_page, $page);
-	
+
 		$cars = $this->db->get('cars_table')->result_array();
 
 		// pagination

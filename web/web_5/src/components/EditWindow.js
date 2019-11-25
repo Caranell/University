@@ -27,13 +27,11 @@ class Editing extends Component {
   onSubmit = async e => {
     try {
       e.preventDefault();
-      const { id } = this.props;
       const { item } = this.state;
-      const hasId = typeof id !== "undefined";
       const response = await fetch(
-        `http://localhost:3000/welcome/submitRecord`,
+        `http://localhost:3000/Rest/list`,
         {
-          method: "post",
+          method: "POST",
           headers: {
             "Content-Type": "application/json; charset=UTF-8"
           },
@@ -45,7 +43,7 @@ class Editing extends Component {
       if (result) {
         alert("your license_plate is not unique");
       } else {
-        window.open(`http://localhost:3000/welcome/table`, "_self").close();
+        window.open(`http://localhost:3000/Rest/table`, "_self").close();
       }
     } catch (err) {
       console.log(err);
@@ -139,7 +137,7 @@ class Editing extends Component {
     const { id } = this.props;
     if (id) {
       const response = await fetch(
-        `http://localhost:3000/welcome/getRecord/${id}`,
+        `http://localhost:3000/Rest/getRecord/${id}`,
         {
           method: "get",
           headers: {
@@ -158,7 +156,7 @@ class Editing extends Component {
   getGeneratedValues = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/welcome/generateUniqueRecord`,
+        `http://localhost:3000/Rest/generateUniqueRecord`,
         {
           method: "get",
           headers: {
