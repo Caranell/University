@@ -21,7 +21,7 @@ class Car_model extends CI_Model
 
 	function list($offset, $sort, $direction)
 	{
-		if (isset($sort)) {
+		if ($sort != "null") {
 			$this->db->order_by($sort, $direction);
 		}
 

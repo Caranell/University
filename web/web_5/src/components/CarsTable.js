@@ -16,7 +16,8 @@ class CarsTable extends React.Component {
     data: [],
     offset: 0,
     sort: null,
-    direction: null
+    direction: null,
+    user_roles: []
   };
 
   async componentDidMount() {
@@ -24,10 +25,10 @@ class CarsTable extends React.Component {
   }
 
   updateSorting = sortColumn => {
-    const { sort } = this.state;
+    const { sort, direction } = this.state;
     let newDirection;
-    if (sortColumn === sort.column) {
-      newDirection = sort.direction === "ASC" ? "DESC" : "ASC";
+    if (sortColumn === sort) {
+      newDirection = direction === "ASC" ? "DESC" : "ASC";
     } else {
       newDirection = "DESC";
     }
@@ -81,22 +82,44 @@ class CarsTable extends React.Component {
     await fetch(`http://localhost:3000/Rest/list?id=${id}`, {
       method: "DELETE"
     });
-    this.getData(`http://localhost:3000/Rest/list`);
+    this.getData();
+  };
+
+  handleOffset = e => {
+    let { value } = e.target;
+    value = value < 0 ? 0 : value;
+    this.setState(
+      {
+        ...this.state,
+        offset: value
+      },
+      () => {
+        this.getData();
+      }
+    );
   };
 
   render() {
-    const { data, sort, user_roles } = this.state;
+    const { data, sort, direction, offset, user_roles } = this.state;
     const headers = data.length ? Object.keys(data[0]) : []; //TODO return generate to illustrate adding
     return (
       <div className="container">
-        {user_roles.includes(5) && (
-          <Button
-            onClick={() => this.editRecord()}
-            style={{ margin: "20px auto" }}
-          >
-            Add
-          </Button>
-        )}
+        <Button
+          onClick={() => this.editRecord()}
+          style={{ margin: "20px auto" }}
+        >
+          Add
+        </Button>
+        <div className="input-group">
+          <input
+            className="form-control"
+            type="number"
+            value={offset}
+            min={0}
+            onChange={e => this.handleOffset(e)}
+            style={{ width: "200px" }}
+          ></input>
+        </div>
         <div className="table__wrapper">
           <Table striped bordered hover responsive>
             <thead>
@@ -104,11 +127,11 @@ class CarsTable extends React.Component {
                 {headers.map((header, idx) => (
                   <th key={idx} onClick={() => this.updateSorting(header)}>
                     {header}
-                    {sort.column === header ? (
+                    {sort === header ? (
                       <FontAwesomeIcon
                         style={{ marginLeft: "8px" }}
                         icon={
-                          sort.direction === "ASC"
+                          direction === "ASC"
                             ? faSortAmountUpAlt
                             : faSortAmountDown
                         }
@@ -118,7 +141,7 @@ class CarsTable extends React.Component {
                     )}
                   </th>
                 ))}
-                {user_roles.includes(4) && <th></th>}
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -127,19 +150,17 @@ class CarsTable extends React.Component {
                   {Object.keys(row).map((cell, cell_idx) => (
                     <td key={cell_idx}>{row[cell]}</td>
                   ))}
-                  {user_roles.includes(4) && (
-                    <td>
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        onClick={() => this.editRecord(row["id"])}
-                        style={{ marginRight: "7px" }}
-                      />
-                      <FontAwesomeIcon
-                        icon={faTrashAlt}
-                        onClick={() => this.deleteRecord(row["id"])}
-                      />
-                    </td>
-                  )}
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      onClick={() => this.editRecord(row["id"])}
+                      style={{ marginRight: "7px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrashAlt}
+                      onClick={() => this.deleteRecord(row["id"])}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
