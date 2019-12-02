@@ -1,0 +1,108 @@
+<definitions name="CarsWsdl" targetNamespace="http://localhost:3000/soap/index/" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:tns="http://localhost:3000/" 
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns:tns="http://schemas.xmlsoap.org/wsdl/" 
+      xmlns="http://www.w3.org/2001/XMLSchema" 
+      xmlns:tns2="http://localhost:3000/" 
+      xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://localhost:3000/soap/index/">
+      <xs:complexType name="Car">
+        <xs:sequence>
+          <xs:element name="id" type="xs:integer" minOccurs="0" maxOccurs="1" />
+          <xs:element name="body" type="xs:string" minOccurs="1" maxOccurs="1" />
+          <xs:element name="brand" type="xs:string" minOccurs="1" maxOccurs="1" />
+          <xs:element name="production_date" type="xs:date" minOccurs="1" maxOccurs="1" />
+          <xs:element name="horses" type="xs:integer" minOccurs="1" maxOccurs="1" />
+          <xs:element name="license_plate" type="xs:string" minOccurs="1" maxOccurs="1" />
+          <xs:element name="car4x4" type="xs:integer" minOccurs="1" maxOccurs="1" />
+          <xs:element name="country" type="xs:string" minOccurs="1" maxOccurs="1" />
+          <xs:element name="owner" type="xs:string" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CarsList">
+        <xs:sequence>
+          <tns2:element minOccurs="1" maxOccurs="unbounded" name="carslist" type="tns2:Car" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Page">
+        <xs:sequence>
+          <xs:element name="start" type="xs:integer" minOccurs="0" maxOccurs="1" />
+          <xs:element name="orderBy" type="xs:string" minOccurs="0" maxOccurs="1" />
+          <xs:element name="reverse" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="getCarsRequest">
+    <part:element name="pageProp" type="tns:Page" />
+  </message>
+  <message name="getCarsResponse">
+    <part:element name="status" type="xs:boolean" />
+    <part:element name="carList" type="tns:CarsList" />
+  </message>
+  <message name="deleteCarRequest">
+    <part:element name="id" type="xs:integer" />
+  </message>
+  <message name="deleteCarResponse">
+    <part:element name="status" type="xs:boolean" />
+  </message>
+  <message name="modifyCarRequest">
+    <part:element name="carList" type="tns:Car" />
+  </message>
+  <message name="modifyCarResponse">
+    <xs:element name="status" type="xs:boolean" />
+  </message>
+  <portType name="CarServicePortType">
+    <operation name="getCars">
+      <input message="tns:getCarsRequest" />
+      <output message="tns:getCarsResponse">
+      </output>
+    </operation>
+  </portType>
+
+  <binding name="CarServiceBinding" type="tns:CarServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getCars">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+
+    <operation name="deleteCar">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+
+    <operation name="modifyCar">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <!-- Определение сервиса  -->
+  <service name="CarService">
+    <port name="CarServicePort" binding="tns:CarServiceBinding">
+      <soap:address location="http://localhost:3000/soap/index" />
+    </port>
+  </service>
+</definitions>
