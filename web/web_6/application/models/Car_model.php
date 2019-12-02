@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Car_model extends CI_Model
 {
@@ -28,10 +29,11 @@ class Car_model extends CI_Model
 		$this->db->limit(50, $offset);
 
 		$cars = $this->db->get('cars_table')->result_array();
+		file_put_contents("log.txt", serialize($cars));
+		return $cars;
+		// $data['cars'] = $cars;
 
-		$data['cars'] = $cars;
-
-		echo json_encode($data);
+		// echo json_encode($data);
 	}
 
 	function getPageRecords($page, $filter, $sort)

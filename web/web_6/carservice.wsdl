@@ -1,6 +1,6 @@
-<definitions name="CarsWsdl" targetNamespace="http://localhost:3000/soap/index/" 
+<definitions name="CarsWsdl" targetNamespace="http://localhost:3004/" 
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-  xmlns:tns="http://localhost:3000/" 
+  xmlns:tns="http://localhost:3004/" 
   xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
@@ -11,8 +11,8 @@
   <types>
     <xs:schema xmlns:tns="http://schemas.xmlsoap.org/wsdl/" 
       xmlns="http://www.w3.org/2001/XMLSchema" 
-      xmlns:tns2="http://localhost:3000/" 
-      xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://localhost:3000/soap/index/">
+      xmlns:tns2="http://localhost:3004/" 
+      xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://localhost:3004/">
       <xs:complexType name="Car">
         <xs:sequence>
           <xs:element name="id" type="xs:integer" minOccurs="0" maxOccurs="1" />
@@ -31,38 +31,48 @@
           <tns2:element minOccurs="1" maxOccurs="unbounded" name="carslist" type="tns2:Car" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="Page">
+      <xs:complexType name="Sorting">
         <xs:sequence>
-          <xs:element name="start" type="xs:integer" minOccurs="0" maxOccurs="1" />
+          <xs:element name="offset" type="xs:integer" minOccurs="0" maxOccurs="1" />
           <xs:element name="orderBy" type="xs:string" minOccurs="0" maxOccurs="1" />
-          <xs:element name="reverse" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+          <xs:element name="direction" type="xs:string" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
   </types>
   <message name="getCarsRequest">
-    <part:element name="pageProp" type="tns:Page" />
+    <part name="sortingProp" type="tns:Sorting" />
   </message>
   <message name="getCarsResponse">
-    <part:element name="status" type="xs:boolean" />
-    <part:element name="carList" type="tns:CarsList" />
+    <part name="status" type="xs:boolean" />
+    <part name="carList" type="tns:CarsList" />
   </message>
   <message name="deleteCarRequest">
-    <part:element name="id" type="xs:integer" />
+    <part name="id" type="xs:integer" />
   </message>
   <message name="deleteCarResponse">
-    <part:element name="status" type="xs:boolean" />
+    <part name="status" type="xs:boolean" />
   </message>
   <message name="modifyCarRequest">
-    <part:element name="carList" type="tns:Car" />
+    <part name="car" type="tns:Car" />
   </message>
   <message name="modifyCarResponse">
-    <xs:element name="status" type="xs:boolean" />
+    <part name="status" type="xs:boolean" />
   </message>
   <portType name="CarServicePortType">
     <operation name="getCars">
       <input message="tns:getCarsRequest" />
       <output message="tns:getCarsResponse">
+      </output>
+    </operation>
+    <operation name="deleteCar">
+      <input message="tns:deleteCarRequest" />
+      <output message="tns:deleteCarResponse">
+      </output>
+    </operation>
+    <operation name="modifyCar">
+      <input message="tns:modifyCarRequest" />
+      <output message="tns:modifyCarResponse">
       </output>
     </operation>
   </portType>
@@ -102,7 +112,7 @@
   <!-- Определение сервиса  -->
   <service name="CarService">
     <port name="CarServicePort" binding="tns:CarServiceBinding">
-      <soap:address location="http://localhost:3000/soap/index" />
+      <soap:address location="http://localhost:3002/soap/index" />
     </port>
   </service>
 </definitions>
