@@ -15,7 +15,7 @@ df['name'] = df['name'].str.replace('программист|developer', ' раз
                                     regex=True).replace('веб', 'web', regex=True)
 df['name'] = df['name'].str.replace('1\s?с', '1с', regex=True)
 df['name'] = df['name'].str.replace(
-    '.*web.*|.*full\s?staсk.*|.*baсkend.*|.*frontend.*', 'web', regex=True)
+    '.*web.*|.*full\s?staсk.*|.*baсkend.*|.*frontend.*|.*html.*', 'web', regex=True)
 
 df['name'] = df['name'].str.replace(
     'devops', 'администратор', regex=True)
@@ -24,20 +24,33 @@ df['name'] = df['name'].str.replace(
 df['name'] = df['name'].str.replace(
     'бд', 'баз данных', regex=True)
 df['name'] = df['name'].str.strip().replace('\s+', ' ', regex=True)
-
+df['name'] = df['name'].str.strip().replace(
+    '.*руководитель.*|.*управляющий.*|.*head.*|.*lead.*', 'руководитель', regex=True)
+df['name'] = df['name'].str.strip().replace(
+    '.*marketing.*|.*маркетолог.*|.*маркетинг.*', 'маркетолог', regex=True)
+df['name'] = df['name'].str.strip().replace(
+    '.*дизайнер.*|.*design.*|.*ui.*|.*ux.*|.*artist.*|,*художник.*', 'дизайнер', regex=True)
+df['name'] = df['name'].str.strip().replace(
+    '.*qa.*|.*testing.*|.*test.*|.*тести.*', 'тестировщик', regex=True)
+df['name'] = df['name'].str.strip().replace(
+    '.*manager.*', 'менеджер', regex=True)
+df['name'] = df['name'].str.strip().replace(
+    '.*data.*|.*science.*|.*данных.*|.*ml.*|.*машинному.*', 'data science', regex=True)
 groups = ['автор', 'project', 'агент', 'продавец', 'инженер', 'техник', 'менеджер', 'оператор', 'аналитик', 'монтажник', 'преподаватель', 'консультант', '1с', 'java', 'js', 'python',
-                                        'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик']
+          'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик', 'руководитель', 'маркетолог', 'дизайнер', 'тестировщик', 'seo', 'data science' ]
 
 
 def fill_avg_town_salary(df_group):
     city_groups = [_ for _, x in df_group.groupby('city')]
-    for group in city_groups:
-        min_salary_mean = (df_group.loc[(df_group['city'] == group)])[
+    for city in city_groups:
+        min_salary_mean = (df_group.loc[(df_group['city'] == city)])[
             'min-salary'].mean()
-        max_salary_mean = (df_group.loc[(df_group['city'] == group)])[
+        max_salary_mean = (df_group.loc[(df_group['city'] == city)])[
             'max-salary'].mean()
-        df_group['max-salary'].fillna(max_salary_mean, inplace=True)
-        df_group['min-salary'].fillna(min_salary_mean, inplace=True)
+        df_group.loc[(df_group['city'] == city)
+                     ]['max-salary'].fillna(max_salary_mean, inplace=True)
+        df_group.loc[(df_group['city'] == city)
+                     ]['min-salary'].fillna(min_salary_mean, inplace=True)
     return df_group
 
 
@@ -52,12 +65,6 @@ for idx, group in enumerate(groups):
 other = fill_avg_town_salary(df)
 other.to_csv('groups/other.csv', index=False, encoding='utf-8')
 df = other
-#original_df.dropna(subset=['city'], inplace=True)
-
-#df.to_csv('test.csv', index=False, encoding='utf-8')
-#original_df.to_csv('test1.csv', index=False, encoding='utf-8')
 
 df.append(original_df,).to_csv(
     'vacancies_data_updated.csv', index=False, encoding='utf-8')
-# pd.concat([original_df, df], ignore_index=False).drop_duplicates(['name', 'description'], keep='last').to_csv(
-#    'vacancies_data_updated.csv', index=False, encoding='utf-8')
