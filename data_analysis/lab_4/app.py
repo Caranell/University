@@ -37,7 +37,11 @@ df['name'] = df['name'].str.strip().replace(
 df['name'] = df['name'].str.strip().replace(
     '.*data.*|.*science.*|.*данных.*|.*ml.*|.*машинному.*', 'data science', regex=True)
 groups = ['автор', 'project', 'агент', 'продавец', 'инженер', 'техник', 'менеджер', 'оператор', 'аналитик', 'монтажник', 'преподаватель', 'консультант', '1с', 'java', 'js', 'python',
-          'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик', 'руководитель', 'маркетолог', 'дизайнер', 'тестировщик', 'seo', 'data science' ]
+          'баз данных', '.net', 'с++', 'sap', 'поддержки', 'администратор', 'web', 'ios', 'android', 'разработчик', 'руководитель', 'маркетолог', 'дизайнер', 'тестировщик', 'seo', 'data science']
+
+df['requirements'] = df['requirements'].fillna('Без требований')
+df['responsibilities'] = df['responsibilities'].fillna('Без обязанностей')
+df['key_skills'] = df['key_skills'].fillna('Без ключевых навыков')
 
 
 def fill_avg_town_salary(df_group):
@@ -47,10 +51,14 @@ def fill_avg_town_salary(df_group):
             'min-salary'].mean()
         max_salary_mean = (df_group.loc[(df_group['city'] == city)])[
             'max-salary'].mean()
-        df_group.loc[(df_group['city'] == city)
-                     ]['max-salary'].fillna(max_salary_mean, inplace=True)
-        df_group.loc[(df_group['city'] == city)
-                     ]['min-salary'].fillna(min_salary_mean, inplace=True)
+        city_group = df_group.loc[(df_group['city'] == city)]
+        city_group['max-salary'].fillna(max_salary_mean, inplace=True)
+        city_group['min-salary'].fillna(min_salary_mean, inplace=True)
+        df_group.loc[(df_group['city'] == city)] = city_group
+    df_group['max-salary'].fillna(df_group['max-salary'].mean(),
+                                  inplace=True)
+    df_group['min-salary'].fillna(df_group['min-salary'].mean(),
+                                  inplace=True)
     return df_group
 
 
@@ -66,5 +74,5 @@ other = fill_avg_town_salary(df)
 other.to_csv('groups/other.csv', index=False, encoding='utf-8')
 df = other
 
-df.append(original_df,).to_csv(
+df.append(original_df).to_csv(
     'vacancies_data_updated.csv', index=False, encoding='utf-8')
