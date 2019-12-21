@@ -5,9 +5,10 @@ from sklearn.metrics import pairwise_distances_argmin_min
 from collections import Counter
 
 from sklearn.cluster import KMeans
+from sklearn.cluster import SpectralClustering
 from sklearn import datasets
-
-
+from sklearn.cluster import AffinityPropagation
+from sklearn.cluster import MeanShift,  estimate_bandwidth
 def find_nearest_centers(df, center):
 	closest, _ = pairwise_distances_argmin_min(
 		center, df[["min-salary", "max-salary"]])
@@ -70,7 +71,6 @@ def print_grouped_vacancy(df):
 	print(info)
 
 
-count_classters = 13
 df = pd.read_csv("output.csv")
 orig_df = pd.read_csv("output.csv")
 df = df.drop(columns=['key_skills', 'description', 'company-name', 'employment-form',
@@ -81,15 +81,16 @@ df.dropna(inplace=True)
 
 # df[["max-salary", "min-salary"]].head()
 df[["min-salary", "max-salary"]].dropna()
-plt.scatter(df["min-salary"], df["max-salary"])
-plt.show()
 
-
-model = KMeans(count_classters)
+#  spectral = cluster.SpectralClustering(
+#         n_clusters=params['n_clusters'], eigen_solver='arpack',
+#         affinity="nearest_neighbors")
+# model = MeanShift()
+model = KMeans(6)
 model.fit(df[["min-salary", "max-salary"]])
 df["labels_salary"] = model.labels_
 list_classters = []
-for i in range(count_classters):
+for i in range(6):
 	one_classter = df.loc[df["labels_salary"] == i]
 	list_classters.append(one_classter)
 list_classters = sorted(list_classters, key=lambda x: x.shape[0], reverse = True)
@@ -107,5 +108,7 @@ for i in range(len(list_classters)):
 	# print(df_centers.head())
 
 
+plt.scatter(df["min-salary"], df["max-salary"])
+plt.show()
 plt.scatter(df["min-salary"], df["max-salary"], c=model.labels_)
 plt.show()
