@@ -91,15 +91,15 @@ def part_2(data):
     data.drop(data.index[[rem_obj]]).to_csv('output_without_outliers.csv')
 
 
-# df = pd.read_csv('input.csv')
-# skills = count_skills_frequency(df)
-# df = df.drop(
-#     ['responsibilities', 'requirements',  'description', 'name', 'city', 'min-salary', 'max-salary', 'company-name',
-#      'max-experience', 'min-experience', 'key_skills', 'min-salary-group', 'max-salary-group',
-#      #   'city: Москва', 'city: Новосибирск', 'city: Казань', 'city: Санкт-Петербург', 'city: Екатеринбург'
-#      ], axis=1)
-# correlation = df.corr().abs()
-# part_1(correlation)
+df = pd.read_csv('output.csv')
+skills = count_skills_frequency(df)
+df = df.drop(
+    ['responsibilities', 'requirements',  'description', 'name', 'city', 'min-salary', 'max-salary', 'company-name',
+     'max-experience', 'min-experience', 'key_skills', 'min-salary-group', 'max-salary-group',
+     #   'city: Москва', 'city: Новосибирск', 'city: Казань', 'city: Санкт-Петербург', 'city: Екатеринбург'
+     ], axis=1)
+correlation = df.corr().abs()
+part_1(correlation)
 
-df = pd.read_csv('input.csv')[['min-salary', 'max-salary']].dropna(axis=0)
+df = pd.read_csv('output.csv')[['min-salary', 'max-salary']].dropna(axis=0)
 part_2(df)
