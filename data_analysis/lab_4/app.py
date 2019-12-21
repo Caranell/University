@@ -66,13 +66,15 @@ original_df = []
 for idx, group in enumerate(groups):
     name_group = df[(df['name'].str.contains(group, na=False, regex=False))]
     name_group = fill_avg_town_salary(name_group)
+    name_group['group'] = group
     original_df.append(name_group)
     df = df[~df['name'].str.contains(group, na=False, regex=False)]
     name_group.to_csv('groups/'+group+'.csv', index=False, encoding='utf-8')
 
 other = fill_avg_town_salary(df)
+
 other.to_csv('groups/other.csv', index=False, encoding='utf-8')
 df = other
-
+df['group']= 'other'
 df.append(original_df).to_csv(
     'vacancies_data_updated.csv', index=False, encoding='utf-8')
