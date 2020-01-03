@@ -10,3 +10,4 @@ web/web_3/user_guide
 .vscode
 desktop.ini
 web/web_3/application/config/database.php
+.vscode/settings.json

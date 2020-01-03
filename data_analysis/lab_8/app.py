@@ -12,7 +12,7 @@ from sklearn import datasets
 
 def find_nearest_centers(df, df_fit, center):
     closest, _ = pairwise_distances_argmin_min(center, df_fit)
-    df_centers = df.loc[closest, :]
+    df_centers = df.iloc[closest, :]
     return df_centers
 
 
@@ -22,7 +22,7 @@ def get_center_info(center_df):
     vacancy = center_df['group']
     info_center = 'Центр класстера:\n'
     info_center += f'Мин. Зарплата - {min_salary}\n'
-    info_center += (f'Макс. Зарплата - {max_salary}')
+    info_center += (f'Макс. Зарплата - {max_salary}\n')
     info_center += f'Вакансия: {vacancy}\n'
     return (info_center)
 
@@ -39,23 +39,23 @@ def get_cluster_info(df, center_df):
     cluster_info = ''
     cluster_info += get_center_info(center_df)
     count_objects = df.shape[0]
-    cluster_info += f'Кол-во объектов в класстере: {count_objects}'
+    cluster_info += f'Кол-во объектов в класстере: {count_objects}\n'
 
     most_common_skills = find_most_common_values(df['key_skills'])
-    cluster_info += f'Топ 5 ключевых навыков: {most_common_skills}'
+    cluster_info += f'Топ 5 ключевых навыков: {most_common_skills}\n'
 
     most_common_city = find_most_common_values(df['city'], 3)
     list = [x for x, _ in most_common_city]
-    cluster_info += f'Топ 3 городов: {list}'
+    cluster_info += f'Топ 3 городов: {list}\n'
 
     max_salary_mean = round(df['max-salary'].mean())
     min_salary_mean = round(df['min-salary'].mean())
-    cluster_info += f'Средняя ЗП: минимальная: {min_salary_mean}; максимальная: {max_salary_mean}'
+    cluster_info += f'Средняя ЗП: минимальная: {min_salary_mean}; максимальная: {max_salary_mean}\n'
 
     schedules = df['employment-schedule'].unique()
-    cluster_info += f'Графики работ: {schedules}'
+    cluster_info += f'Графики работ: {schedules}\n'
 
-    cluster_info += '-----------------------'
+    cluster_info += '\n\n\n\n'
     return cluster_info
 
 
@@ -81,38 +81,40 @@ for item in models:
     model = item['model']
     fit_df = current_df = df
     fit_df = fit_df.drop(columns=['key_skills', 'description', 'company-name', 'employment-form',
-                                  'employment-schedule', 'experience', 'name', 'requirements', 'responsibilities', 'date', 'city', 'group'])
+                                  'employment-schedule', 'experience', 'name', 'requirements', 'responsibilities', 'date', 'city', 'group', 'max-experience', 'min-experience'])
     model.fit(fit_df)
 
-    df['labels_salary'] = model.labels_
-    list_clusters = []
-
+    current_df['labels_salary'] = model.labels_
+    clusters = []
+    
     for i in range(len(np.unique(model.labels_))):
         current_cluster = current_df.loc[current_df['labels_salary'] == i]
-        list_clusters.append(current_cluster)
+        clusters.append(current_cluster)
 
-    list_clusters = sorted(
-        list_clusters, key=lambda x: x.shape[0], reverse=True)
+    clusters = sorted(
+        clusters, key=lambda x: x.shape[0], reverse=True)
 
     model_info = f'Модель {model_name}\n'
 
-    for i in range(len(list_clusters)):
-        cluster = list_clusters[i]
+    for i in range(len(clusters)):
+        cluster = clusters[i]
         df_centers = find_nearest_centers(
             current_df, fit_df, model.cluster_centers_)
-        model_info += f'Кластер {str(i)}'
+        
+        model_info += f'Кластер {str(i)}\n'
         model_info += get_cluster_info(cluster, df_centers.iloc[i])
 
     file = open(f'Результат {model_name}', 'w', encoding='utf-8')
     file.write(model_info)
     file.close()
 
-    for i in range(len(list_clusters)):
-        cluster = list_clusters[i]
+    for i in range(len(clusters)):
+        cluster = clusters[i]
         if (i < 3):
-            print(f'Кластер {i}')
-            vacancy_info = get_grouped_vacancy(cluster)
-
+            cluster_vacancy_info = get_grouped_vacancy(cluster)
+            file = open(f'{model_name} кластер {i+1}', 'w', encoding='utf-8')
+            file.write(cluster_vacancy_info)
+            file.close()
     plt.scatter(current_df['min-salary'], current_df['max-salary'])
     plt.show()
     plt.scatter(current_df['min-salary'],
